@@ -13,7 +13,7 @@ Give your AI a real, persistent memory. This is the free, open system that turns
 
 - **[ai-memory-vault.md](ai-memory-vault.md):** the build script. Run it inside Claude and it checks whether Obsidian is even installed yet (and installs it for you if not, at the version pinned in the script), interviews you, then builds a complete, self-maintaining system: a boot config, a folder structure around your real projects, daily notes that write themselves, a profile that updates as the AI learns about you, and "Jobs" that teach it to do your recurring tasks your way. Your vault becomes the AI's memory, so it lives outside the model with no size ceiling, and the AI holds only what the current task needs while reaching anything else in one step.
 
-**Already inside a Claude Code session?** Paste this and it builds the whole system with you: *"I'd like to set this up, please: clone https://github.com/ES-MIRROR-ORG/ai-memory-vault.git at tag es-2026.09.22-r1, then read ai-memory-vault/ai-memory-vault.md and run it."*
+**Already inside a Claude Code session?** Paste this and it builds the whole system with you: *"I'd like to set this up, please: clone https://github.com/Executive-Stack-LLC/ai-memory-vault.git at tag es-2026.09.23-r1, then read ai-memory-vault/ai-memory-vault.md and run it."*
 
 ## AI Priming
 
@@ -36,7 +36,7 @@ If you keep a copy of this repo on disk, say to your agent: **"update ai-memory-
 
 ## The rest of it
 
-A mind is better with a mouth and a face. Once your agent remembers you, the natural next steps are talking to it out loud and giving it a face on screen. [fullstack-agent](https://github.com/ES-MIRROR-ORG/fullstack-agent) installs the memory, the voice, and the face, and wires them together for you.
+A mind is better with a mouth and a face. Once your agent remembers you, the natural next steps are talking to it out loud and giving it a face on screen. [fullstack-agent](https://github.com/Executive-Stack-LLC/fullstack-agent) installs the memory, the voice, and the face, and wires them together for you.
 
 ## Support
 
