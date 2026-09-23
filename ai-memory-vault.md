@@ -5,7 +5,7 @@ version: 3.3
 author: Jared Rhodenizer (@jaredrhod)
 ---
 
-<!-- Modified by Executive Stack, 2026-09-22. See NOTICE-EXECUTIVE-STACK.md. -->
+<!-- Modified by Executive Stack, 2026-09-23. See NOTICE-EXECUTIVE-STACK.md. -->
 # AI Memory Vault
 
 By **Jared Rhodenizer** (@jaredrhod) · upstream: github.com/jaredrhod/ai-memory-vault · this copy: the Executive Stack pinned release (github.com/Executive-Stack-LLC/ai-memory-vault, release named in `ES_RELEASE`), adapted under CC BY-SA 4.0
@@ -63,10 +63,10 @@ If you (the AI reading this) have shell access, which is every Claude Code sessi
    - **macOS with Homebrew** (`command -v brew` succeeds): `brew install --cask obsidian` installs the version the tap currently carries (1.13.7 at this release; run `brew info --cask obsidian` first and, if the tap has moved past 1.13.7, use the macOS-without-Homebrew path below instead so the pinned version lands).
    - **macOS without Homebrew (the pinned path):** download `https://github.com/obsidianmd/obsidian-releases/releases/download/v1.13.7/Obsidian-1.13.7.dmg` (Obsidian's official distribution channel), then verify it before touching it: `shasum -a 256 Obsidian-1.13.7.dmg` must print `05daa54f5e1a4458f75da29f8faaa17e8e37ae16998432537f674c626db99bce`. On a mismatch delete the file and stop. On a match: mount it with `hdiutil attach`, copy `Obsidian.app` from the mounted volume into `/Applications` (fall back to `~/Applications` if that write is refused), then `hdiutil detach` the volume and delete the DMG.
    - **Windows:** `winget install --id Obsidian.Obsidian -e --version 1.13.7 --silent --accept-package-agreements --accept-source-agreements` (winget ships with Windows 10 and 11). If winget is genuinely absent, stop and ask the person's Executive Stack contact rather than downloading an unpinned installer.
-   - **Linux:** `flatpak install flathub md.obsidian.Obsidian` where Flatpak exists; otherwise download `https://github.com/obsidianmd/obsidian-releases/releases/download/v1.13.7/Obsidian-1.13.7.AppImage` and verify `sha256sum` prints `e0d8e0a611624de8c9c7dcd8a9e648279fb0a0d552faa1312b7e4f3a5fa72663` (x86_64) or, for `Obsidian-1.13.7-arm64.AppImage`, `e286fd2bb2a5d346a35a577bd764c73fd5537dddec2b99a1a3e5e35974085203`, before making it executable.
+   - **Linux (the pinned path):** download `https://github.com/obsidianmd/obsidian-releases/releases/download/v1.13.7/Obsidian-1.13.7.AppImage` and verify `sha256sum` prints `e0d8e0a611624de8c9c7dcd8a9e648279fb0a0d552faa1312b7e4f3a5fa72663` (x86_64) or, for `Obsidian-1.13.7-arm64.AppImage`, `e286fd2bb2a5d346a35a577bd764c73fd5537dddec2b99a1a3e5e35974085203`, before making it executable. Do not install through Flatpak or Snap for this setup: `flatpak install flathub md.obsidian.Obsidian` installs whatever build Flathub carries that day, which cannot be pinned to 1.13.7 or checked against a hash, so that lane is not part of this release. (An Obsidian that step 1 found already installed through Flatpak or Snap counts as installed; say which version it is and move on.)
 
    Then **verify it landed** (the app now exists where you looked in step 1), and do NOT launch it yet. The first launch happens in step 5, after the vault exists and is registered, so the first thing the person ever sees in Obsidian is their own vault, not a welcome screen asking them to pick one.
-3. **No shell access** (Claude Desktop, claude.ai): have the person download Obsidian 1.13.7 from the release page above (or from obsidian.md if that is the version it offers) and install it, and stay with them while they do.
+3. **No shell access** (Claude Desktop, claude.ai): you cannot download or verify anything yourself here, so say plainly that this lane is not the pinned install. Have the person download exactly Obsidian 1.13.7 from the release page above, `https://github.com/obsidianmd/obsidian-releases/releases/tag/v1.13.7`, never the download button on obsidian.md (which offers whatever the current version is): on macOS `Obsidian-1.13.7.dmg`, SHA-256 `05daa54f5e1a4458f75da29f8faaa17e8e37ae16998432537f674c626db99bce`; on Linux the AppImages above with their hashes; on Windows `Obsidian-1.13.7.exe`, for which this release publishes no hash, so tell them that file is unverified. Give them the hash to compare where one exists (`shasum -a 256` on macOS, `sha256sum` on Linux) and stay with them while they install it.
 4. **Find or create the vault, and never create over what exists.** Obsidian keeps a registry of every vault on the machine in its app config, `obsidian.json` (macOS: `~/Library/Application Support/obsidian/obsidian.json` · Windows: `%APPDATA%\obsidian\obsidian.json` (lowercase folder) · Linux: `~/.config/obsidian/obsidian.json`). Read it: it lists vault names and paths only, never note contents, so it sits inside the privacy rules. Then:
    - **Vaults already exist:** name them, with locations, and offer a real choice: use one of these, or create a brand-new vault just for this system. **The fresh option is ALWAYS on the menu.** Having a vault never implies wanting to reuse it; their existing one might be recipes, a work brain, or notes they'd rather keep away from an agent.
    - **No vaults exist, or they choose fresh:** create it at **`~/<their name for it>`**, directly in their home folder, the same place the agent folder lives. Name it something personal ("Brain," "HQ," their name). Not Documents, not Desktop, not an iCloud or OneDrive folder. The reason, in their words if they ask: on a Mac those folders are walled off from anything that runs without a person at the keyboard, and their agent is about to start doing things on its own; a vault inside Documents works fine while they are typing and goes dark the moment the agent works alone, with no error to say why. Same rule on Windows and Linux, so every guide and tool in this ecosystem points at one place. If they ask for somewhere else anyway, say that once, recommend the home folder, and if they still want it elsewhere it is their computer: create it where they said and move on. Nothing about the location gets written anywhere beyond the path itself, and you never bring it up again. The moment the vault exists, say the full path out loud: "your vault now lives at [path]; that is where your notes physically live on this computer." (The path gets recorded permanently in VAULT-INDEX's Vault location section during the build.) **That section is the SINGLE SOURCE OF TRUTH for where the vault lives, and say so when you write it.** The same path ends up in at least two other places — the boot config's path line, and the voice line's `extra_dirs` if that piece is installed — and nothing connects them. If the person ever moves the vault, the copies go stale silently and the agent keeps reading a folder that is not there, with no error to explain it. So whenever you write that path anywhere, write it from the Vault location section, and when a vault moves, fix every copy in the same pass.
@@ -268,12 +268,17 @@ Create this at the vault root. The most important file in the system. Fill in ev
 
 *(Maintainer note: this embedded copy and `templates/VAULT-INDEX.md` are one document for two audiences: this one gets filled in by the interview, the template by hand with [FILL IN: ...] markers, so placeholder text and audience framing legitimately differ. The shared substance, meaning the rules and every sentence that is not a placeholder, must stay word-for-word identical: an edit to shared text in one is an edit to both, in the same commit.)*
 
+**The attribution comment right after the frontmatter is required by the license this file is adapted under (CC BY-SA 4.0). Write it into the person's VAULT-INDEX.md exactly as shown, and never strip it, shorten it, or move it into a note the file merely links to.**
+
 ````markdown
 ---
 status: active
 project: meta
 type: index
 ---
+<!-- Adapted from AI Memory Vault by Jared Rhodenizer: https://github.com/jaredrhod/ai-memory-vault
+     Modified by Executive Stack, 2026-09-23: https://github.com/Executive-Stack-LLC/ai-memory-vault
+     Licensed CC BY-SA 4.0: https://creativecommons.org/licenses/by-sa/4.0/ -->
 # VAULT INDEX
 
 Read this file at the start of every conversation to understand who I am, how I work, and how this vault is organized.
@@ -547,7 +552,12 @@ Fill in the Identity section from discovery question 0 — door A keeps the ship
 
 *(Maintainer note: this embedded copy and `templates/CLAUDE.md` are one document for two audiences: this one gets filled in by the interview, the template by hand with [FILL IN: ...] markers, so placeholder text and audience framing legitimately differ. The shared substance, meaning the rules and every sentence that is not a placeholder, must stay word-for-word identical: an edit to shared text in one is an edit to both, in the same commit.)*
 
+**The attribution comment on the first line is required by the license this file is adapted under (CC BY-SA 4.0). Write it into the person's CLAUDE.md exactly as shown (when appending to an existing CLAUDE.md, it goes at the top of the appended block), and never strip it, shorten it, or replace it with a pointer to a file outside their machine.**
+
 ```markdown
+<!-- Adapted from AI Memory Vault by Jared Rhodenizer: https://github.com/jaredrhod/ai-memory-vault
+     Modified by Executive Stack, 2026-09-23: https://github.com/Executive-Stack-LLC/ai-memory-vault
+     Licensed CC BY-SA 4.0: https://creativecommons.org/licenses/by-sa/4.0/ -->
 # Boot Config
 
 This is the pinned boot file, kept in your working folder (not the vault). It loads automatically at the start of every Claude Code session and survives context compaction; VAULT-INDEX.md may not, so identity and the rules that can't lapse live here. The full operating manual is VAULT-INDEX.md at the vault root — read it at startup. The vault is at `[their real vault path]`.
@@ -798,7 +808,7 @@ Mac and Linux:
 mkdir -p ~/my-agent && cd ~/my-agent && git clone --branch es-2026.09.23-r1 --depth 1 https://github.com/Executive-Stack-LLC/fullstack-agent && cd fullstack-agent && claude "set me up"
 ```
 
-Windows (PowerShell; the `$h` value is the release zip's SHA-256 from the Executive Stack release manifest, which their Executive Stack contact supplies with the command):
+Windows (PowerShell; the `$h` value is the release zip's SHA-256. Their Executive Stack contact sends it with the command, and the same hash is published in the release notes of the fullstack-agent GitHub Release for the tag, github.com/Executive-Stack-LLC/fullstack-agent/releases/tag/es-2026.09.23-r1, so the two can be checked against each other):
 ```
 $t="es-2026.09.23-r1"; $h="ES-MIRROR-FSA-ZIP-SHA256"; $d="$env:USERPROFILE\.local\bin"; if (Test-Path "$d\claude.exe") { $env:Path="$d;$env:Path" }; New-Item -ItemType Directory -Force -Path $HOME\my-agent | Out-Null; cd $HOME\my-agent; if (-not (Test-Path fullstack-agent\fullstack-agent.md)) { Invoke-WebRequest "https://github.com/Executive-Stack-LLC/fullstack-agent/releases/download/$t/fullstack-agent-$t.zip" -OutFile fsa.zip; if ((Get-FileHash fsa.zip -Algorithm SHA256).Hash -ne $h) { Remove-Item fsa.zip; throw "download hash mismatch: refusing to install" }; Expand-Archive fsa.zip . -Force; New-Item -ItemType Directory -Force -Path fullstack-agent | Out-Null; Get-ChildItem "fullstack-agent-$t" -Force | Copy-Item -Destination fullstack-agent -Recurse -Force; Remove-Item "fullstack-agent-$t" -Recurse -Force; Remove-Item fsa.zip }; cd fullstack-agent; if (Get-Command claude -ErrorAction SilentlyContinue) { claude "set me up" } else { Write-Output "Claude Code is not installed yet. Install it first from https://claude.com/claude-code then paste this again." }
 ```

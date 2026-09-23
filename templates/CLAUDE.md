@@ -1,4 +1,6 @@
-<!-- Modified by Executive Stack, 2026-09-22. See NOTICE-EXECUTIVE-STACK.md. Adapted from Jared Rhodenizer's ai-memory-vault under CC BY-SA 4.0. -->
+<!-- Adapted from AI Memory Vault by Jared Rhodenizer: https://github.com/jaredrhod/ai-memory-vault
+     Modified by Executive Stack, 2026-09-23: https://github.com/Executive-Stack-LLC/ai-memory-vault (changes listed in NOTICE-EXECUTIVE-STACK.md)
+     Licensed CC BY-SA 4.0: https://creativecommons.org/licenses/by-sa/4.0/ -->
 # Boot Config
 
 This is the pinned boot file. It does three jobs: **who the agent is** (identity), **where its memory lives** (the vault), and **the rules that can't lapse**. If you use Claude Code, it loads this automatically at the start of every session. It survives context compaction; VAULT-INDEX.md may not, which is exactly why identity and the rules live here. The full operating manual is VAULT-INDEX.md at your vault root — its two jobs are your profile and the map of the vault — read it at startup.

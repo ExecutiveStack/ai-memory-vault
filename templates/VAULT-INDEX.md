@@ -3,7 +3,9 @@ status: active
 project: meta
 type: index
 ---
-<!-- Modified by Executive Stack, 2026-09-22. See NOTICE-EXECUTIVE-STACK.md. Adapted from Jared Rhodenizer's ai-memory-vault under CC BY-SA 4.0. -->
+<!-- Adapted from AI Memory Vault by Jared Rhodenizer: https://github.com/jaredrhod/ai-memory-vault
+     Modified by Executive Stack, 2026-09-23: https://github.com/Executive-Stack-LLC/ai-memory-vault (changes listed in NOTICE-EXECUTIVE-STACK.md)
+     Licensed CC BY-SA 4.0: https://creativecommons.org/licenses/by-sa/4.0/ -->
 # VAULT INDEX
 
 Read this file at the start of every conversation. It has two jobs: **the profile of the person you work for** (who I am, how I think, how to work with me) and **the map of this vault** (the structure, the indexes, and the rules for maintaining it). Your own identity is not here — that lives in the boot file (CLAUDE.md), which survives compaction.
