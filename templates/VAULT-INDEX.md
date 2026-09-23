@@ -3,6 +3,7 @@ status: active
 project: meta
 type: index
 ---
+<!-- Modified by Executive Stack, 2026-09-22. See NOTICE-EXECUTIVE-STACK.md. Adapted from Jared Rhodenizer's ai-memory-vault under CC BY-SA 4.0. -->
 # VAULT INDEX
 
 Read this file at the start of every conversation. It has two jobs: **the profile of the person you work for** (who I am, how I think, how to work with me) and **the map of this vault** (the structure, the indexes, and the rules for maintaining it). Your own identity is not here — that lives in the boot file (CLAUDE.md), which survives compaction.
@@ -63,9 +64,6 @@ All open work lives in one note: [[Active Priorities]]. Tag each item with its p
 
 ## How I Think
 [FILL IN: bullets, first person.]
-
-## Health
-[FILL IN: only what you want the AI to factor in — routines, goals, constraints. Or delete this section.]
 
 ## Personal Interests
 [FILL IN: bullets, first person.]
@@ -206,7 +204,7 @@ This is universal — every AI that reads this vault does it. I use multiple AIs
 
 This file is a living document. Update the profile sections as you learn new things about me through conversation. Updates happen silently and are logged in the daily note under "Profile Updates."
 
-**You can update:** Key People · How I Think · Health · Personal Interests · Beliefs · Daily Routine.
+**You can update:** Key People · How I Think · Personal Interests · Beliefs · Daily Routine.
 **You must NOT update:** Who I Am (basic bio — only I change it) · the project sections · What's Active Right Now (lives in Active Priorities) · My Preferences for Working with AI · Vault Rules for AI.
 **Vault Structure is a special case:** never rewrite it on your own initiative, but when a folder is actually created, renamed, or removed, updating the map is part of that change — do it in the same pass.
 

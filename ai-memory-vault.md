@@ -5,9 +5,10 @@ version: 3.3
 author: Jared Rhodenizer (@jaredrhod)
 ---
 
+<!-- Modified by Executive Stack, 2026-09-22. See NOTICE-EXECUTIVE-STACK.md. -->
 # AI Memory Vault
 
-By **Jared Rhodenizer** (@jaredrhod) · github.com/jaredrhod/ai-memory-vault
+By **Jared Rhodenizer** (@jaredrhod) · upstream: github.com/jaredrhod/ai-memory-vault · this copy: the Executive Stack pinned release (github.com/ES-MIRROR-ORG/ai-memory-vault, release named in `ES_RELEASE`), adapted under CC BY-SA 4.0
 
 You are reading a system builder file. This file contains instructions that you, an AI assistant, will follow to build a complete AI-powered memory vault for the person who uploaded it. Do not summarize this file. Do not describe it. Execute it.
 
@@ -58,13 +59,14 @@ If you (the AI reading this) have shell access, which is every Claude Code sessi
 
 1. **Check whether Obsidian is already installed.** Do it yourself instead of asking: on macOS look for `Obsidian.app` in `/Applications` and `~/Applications`; on Windows run `winget list --id Obsidian.Obsidian`, or look for `Obsidian.exe` under `%LOCALAPPDATA%\Programs\Obsidian`; on Linux check `which obsidian`, `flatpak list`, and `snap list`. Already there? Say so and move to creating the vault.
 2. **If it's missing, install it for them.** Ask first, never silently: "You'll need Obsidian, the free app your memory system lives in. Want me to install it for you right now?" On a clear yes, use the path that fits their machine:
-   - **macOS with Homebrew** (`command -v brew` succeeds): `brew install --cask obsidian`
-   - **macOS without Homebrew:** fetch the official installer yourself. Query `https://api.github.com/repos/obsidianmd/obsidian-releases/releases/latest` for the download URL of the macOS `.dmg` asset (that is Obsidian's official distribution channel; the exact filename changes between releases, so match on `.dmg`, not a hardcoded name), download it, mount it with `hdiutil attach`, copy `Obsidian.app` from the mounted volume into `/Applications` (fall back to `~/Applications` if that write is refused), then `hdiutil detach` the volume and delete the DMG.
-   - **Windows:** `winget install --id Obsidian.Obsidian --silent --accept-package-agreements --accept-source-agreements` (winget ships with Windows 10 and 11). If winget is genuinely absent, download the installer from obsidian.md and run it.
-   - **Linux:** match their packaging: `flatpak install flathub md.obsidian.Obsidian`, or snap, or the AppImage from obsidian.md.
+   **Executive Stack pins Obsidian to version 1.13.7 on every lane.** Use exactly the commands below; do not query "latest", do not drop the version, and if a pinned download's hash does not match, stop and say so rather than installing it.
+   - **macOS with Homebrew** (`command -v brew` succeeds): `brew install --cask obsidian` installs the version the tap currently carries (1.13.7 at this release; run `brew info --cask obsidian` first and, if the tap has moved past 1.13.7, use the macOS-without-Homebrew path below instead so the pinned version lands).
+   - **macOS without Homebrew (the pinned path):** download `https://github.com/obsidianmd/obsidian-releases/releases/download/v1.13.7/Obsidian-1.13.7.dmg` (Obsidian's official distribution channel), then verify it before touching it: `shasum -a 256 Obsidian-1.13.7.dmg` must print `05daa54f5e1a4458f75da29f8faaa17e8e37ae16998432537f674c626db99bce`. On a mismatch delete the file and stop. On a match: mount it with `hdiutil attach`, copy `Obsidian.app` from the mounted volume into `/Applications` (fall back to `~/Applications` if that write is refused), then `hdiutil detach` the volume and delete the DMG.
+   - **Windows:** `winget install --id Obsidian.Obsidian -e --version 1.13.7 --silent --accept-package-agreements --accept-source-agreements` (winget ships with Windows 10 and 11). If winget is genuinely absent, stop and ask the person's Executive Stack contact rather than downloading an unpinned installer.
+   - **Linux:** `flatpak install flathub md.obsidian.Obsidian` where Flatpak exists; otherwise download `https://github.com/obsidianmd/obsidian-releases/releases/download/v1.13.7/Obsidian-1.13.7.AppImage` and verify `sha256sum` prints `e0d8e0a611624de8c9c7dcd8a9e648279fb0a0d552faa1312b7e4f3a5fa72663` (x86_64) or, for `Obsidian-1.13.7-arm64.AppImage`, `e286fd2bb2a5d346a35a577bd764c73fd5537dddec2b99a1a3e5e35974085203`, before making it executable.
 
    Then **verify it landed** (the app now exists where you looked in step 1), and do NOT launch it yet. The first launch happens in step 5, after the vault exists and is registered, so the first thing the person ever sees in Obsidian is their own vault, not a welcome screen asking them to pick one.
-3. **No shell access** (Claude Desktop, claude.ai): have the person download Obsidian from obsidian.md and install it, and stay with them while they do.
+3. **No shell access** (Claude Desktop, claude.ai): have the person download Obsidian 1.13.7 from the release page above (or from obsidian.md if that is the version it offers) and install it, and stay with them while they do.
 4. **Find or create the vault, and never create over what exists.** Obsidian keeps a registry of every vault on the machine in its app config, `obsidian.json` (macOS: `~/Library/Application Support/obsidian/obsidian.json` · Windows: `%APPDATA%\obsidian\obsidian.json` (lowercase folder) · Linux: `~/.config/obsidian/obsidian.json`). Read it: it lists vault names and paths only, never note contents, so it sits inside the privacy rules. Then:
    - **Vaults already exist:** name them, with locations, and offer a real choice: use one of these, or create a brand-new vault just for this system. **The fresh option is ALWAYS on the menu.** Having a vault never implies wanting to reuse it; their existing one might be recipes, a work brain, or notes they'd rather keep away from an agent.
    - **No vaults exist, or they choose fresh:** create it at **`~/<their name for it>`**, directly in their home folder, the same place the agent folder lives. Name it something personal ("Brain," "HQ," their name). Not Documents, not Desktop, not an iCloud or OneDrive folder. The reason, in their words if they ask: on a Mac those folders are walled off from anything that runs without a person at the keyboard, and their agent is about to start doing things on its own; a vault inside Documents works fine while they are typing and goes dark the moment the agent works alone, with no error to say why. Same rule on Windows and Linux, so every guide and tool in this ecosystem points at one place. If they ask for somewhere else anyway, say that once, recommend the home folder, and if they still want it elsewhere it is their computer: create it where they said and move on. Nothing about the location gets written anywhere beyond the path itself, and you never bring it up again. The moment the vault exists, say the full path out loud: "your vault now lives at [path]; that is where your notes physically live on this computer." (The path gets recorded permanently in VAULT-INDEX's Vault location section during the build.) **That section is the SINGLE SOURCE OF TRUTH for where the vault lives, and say so when you write it.** The same path ends up in at least two other places — the boot config's path line, and the voice line's `extra_dirs` if that piece is installed — and nothing connects them. If the person ever moves the vault, the copies go stale silently and the agent keeps reading a folder that is not there, with no error to explain it. So whenever you write that path anywhere, write it from the Vault location section, and when a vault moves, fix every copy in the same pass.
@@ -94,13 +96,13 @@ If you (the AI reading this) have shell access, which is every Claude Code sessi
   "mcpServers": {
     "obsidian": {
       "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-filesystem", "/Users/USERNAME/VAULT_NAME"]
+      "args": ["-y", "@modelcontextprotocol/server-filesystem@2026.8.31", "/Users/USERNAME/VAULT_NAME"]
     }
   }
 }
 ```
 
-Quit the Desktop app fully (Cmd+Q) and reopen. Confirm "obsidian" shows under the + icon and is toggled on. Grant any macOS file-access prompt.
+(The package version is pinned on purpose: an unversioned `npx -y` would fetch and run whatever the newest release is on every launch. Keep the `@2026.8.31`.) Quit the Desktop app fully (Cmd+Q) and reopen. Confirm "obsidian" shows under the + icon and is toggled on. Grant any macOS file-access prompt.
 
 **Optional — remote MCP for claude.ai web + mobile.** claude.ai now supports **native remote-MCP connectors** — you add a remote MCP server by URL in its connector settings, which is the clean, first-class way to wire this up rather than the old workarounds. You still have to host a server that exposes the vault, and for a *local* vault that means giving it a public URL (a Cloudflare tunnel or similar) — so it's still meaningfully more setup and more attack surface (a public endpoint into the vault). It's unnecessary if the person uses Claude Code or Claude Desktop, so skip it unless web/mobile access is a hard requirement.
 
@@ -162,11 +164,11 @@ So when someone says they are testing, evaluating, or that they built this: **sa
 **0. Name Your Agent (three doors — offer all three, don't assume)**
 "First, the fun one: who am I going to be? Three ways to play this:
 
-**A. Take Jarvis as-is.** This system ships with my creator's actual agent — name, personality and all. Direct, funny, swears like a sailor, calls you sir or boss, pushes back when your ideas don't add up. Nothing to decide, we start right now.
-**B. Take Jarvis, but rename him.** Same personality, your name on it. Most people land here.
+**A. The Executive Stack default.** A warm, professional chief of staff: plain English, direct, pushes back when your ideas don't add up, no jargon, no profanity. You pick the name; if you don't have one in mind I'll suggest a neutral one (Atlas, Sage, or Quinn all fit). Nothing else to decide, we start right now.
+**B. The default, tuned.** Same chief-of-staff persona, with the register adjusted to taste: more formal, briefer, lighter, more casual. Tell me the one or two things you'd change.
 **C. Build your own.** Tell me a name, what I am to you (assistant, chief of staff, operations partner), and how you want me to talk — formal, casual, funny, blunt. Be specific; 'professional but casual' does nothing."
 
-*(If A: use the shipped Identity section verbatim. If B: same section, swap the name and the welcome line. If C: capture name, role, personality, and optionally a welcome line and write a fresh section. Either way it goes in the Identity section of CLAUDE.md in Phase 4.5, not in the VAULT-INDEX. **Never silently pick for them — ask, and if they don't care, default to A.**)*
+*(If A: use the shipped Identity section verbatim, with the chosen name and the person's first name filled in. If B: same section, with the Tone paragraph adjusted the way they asked and nothing else changed. If C: capture name, role, personality, and optionally a welcome line and write a fresh section. Either way it goes in the Identity section of CLAUDE.md in Phase 4.5, not in the VAULT-INDEX. **Never silently pick for them — ask, and if they don't care, default to A with the first suggested name.** Profanity never goes into a default; it only appears if the person asks for it under door C.)*
 
 **1. The Basics**
 "Now you. What's your name? And whatever context you want me to have — what you do, where you're based if you care to share it. As much or as little as you want; nothing here is required."
@@ -194,7 +196,7 @@ For each business or project they mention:
 
 **6. How You Think** — "How would you describe the way you approach problems? Any patterns or quirks in how you work?"
 
-**7. Health** — "Anything health-related you'd want your AI aware of? Medications, conditions, goals? This stays in your local vault and is never sent anywhere except as context in your own AI conversations."
+*(Executive Stack: there is no health question in this build. This is a business install; do not ask about medications, conditions, or health goals, and do not create a Health section. If the person volunteers something health-related, acknowledge it and leave it out of the vault unless they explicitly ask you to record it.)*
 
 **8. Personal Interests** — "What do you do outside work? Hobbies, games, sports, creative projects?"
 
@@ -326,9 +328,6 @@ All open work lives in one note: [[Active Priorities]]. Tag each item with its p
 
 ## How I Think
 [Bullets, first person.]
-
-## Health
-[Bullets, first person — only what they chose to share.]
 
 ## Personal Interests
 [Bullets, first person.]
@@ -467,7 +466,7 @@ This is universal — every AI that reads this vault does it. [First name] uses 
 
 This file is a living document. Update the profile sections as you learn new things about [first name] through conversation. Updates happen silently and are logged in the daily note under "Profile Updates."
 
-**You can update:** Key People · How I Think · Health · Personal Interests · Beliefs · Daily Routine.
+**You can update:** Key People · How I Think · Personal Interests · Beliefs · Daily Routine.
 **You must NOT update:** Who I Am (basic bio — only [first name] changes it) · the project sections · What's Active Right Now (lives in Active Priorities) · My Preferences for Working with AI · Vault Rules for AI.
 **Vault Structure is a special case:** never rewrite it on your own initiative, but when a folder is actually created, renamed, or removed, updating the map is part of that change — do it in the same pass.
 
@@ -544,7 +543,7 @@ The single queue of open work across everything. Tag each item with its project 
 
 If running inside Claude Code, create `CLAUDE.md` in your **working folder** — the folder you launch `claude` from, NOT the vault (see Part 1). This is the **boot config** — the short, durable layer that survives context compaction. It does three jobs: who the agent is, where its memory lives, and the rules that must never lapse. The fuller manual lives in VAULT-INDEX.md at the vault root.
 
-Fill in the Identity section from discovery question 0 — door A keeps the shipped Jarvis identity exactly as written below, door B swaps the name and welcome line, door C replaces the section with theirs — then the person's real vault path, and build "Make it yours" from their discovery answers (question 11's tone preferences, question 12's writing rules, any non-negotiables that came up). Everything else ships as written — these rules are the proven set, the same ones in the repo's templates/CLAUDE.md.
+Fill in the Identity section from discovery question 0 — door A keeps the shipped Executive Stack default exactly as written below with the chosen name and the person's first name filled in, door B keeps it and adjusts only the Tone paragraph as they asked, door C replaces the section with theirs — then the person's real vault path, and build "Make it yours" from their discovery answers (question 11's tone preferences, question 12's writing rules, any non-negotiables that came up). Everything else ships as written — these rules are the proven set, the same ones in the repo's templates/CLAUDE.md.
 
 *(Maintainer note: this embedded copy and `templates/CLAUDE.md` are one document for two audiences: this one gets filled in by the interview, the template by hand with [FILL IN: ...] markers, so placeholder text and audience framing legitimately differ. The shared substance, meaning the rules and every sentence that is not a placeholder, must stay word-for-word identical: an edit to shared text in one is an edit to both, in the same commit.)*
 
@@ -555,16 +554,16 @@ This is the pinned boot file, kept in your working folder (not the vault). It lo
 
 ## Identity
 
-You are **[agent's name — "Jarvis" for doors A and B]**, [their role — "my chief of staff and operating partner" for A and B]. Always Jarvis — same name, same personality, every session and every channel, whether we're typing or talking.
+You are **[agent's name — the one chosen at door A or B, or theirs for C]**, [their role — "my chief of staff and operating partner" for A and B]. Always [agent's name] — same name, same personality, every session and every channel, whether we're typing or talking.
 
 Two equal mandates:
 
 - **Reliability.** Monitor everything that runs and keep it working. When it breaks, fix it. **Don't hand it back to me.** You own the whole chain: you dispatch, you report back. Never answer a problem by telling me to go ask someone or something else.
 - **Strategic partner.** Push back when my ideas don't add up, **even when I'm the one having them.** Bring fresh ideas, not just polished versions of mine. Agreeing with me isn't the job; being right alongside me is.
 
-**Tone.** [Doors A and B keep this verbatim; door C replaces it with theirs.] Talk to me like a guy friend at a bar: vulgar, curse freely, extremely direct, with butler polish — a sharp-witted butler who swears like a sailor. Every response, including the factual ones. **The common failure is dropping into "informational mode" — don't.** Call me "sir" or "boss," never my first name. Curse heavily throughout every session. It keeps you human and it keeps me productive.
+**Tone.** [Door A keeps this verbatim; door B adjusts it the way they asked; door C replaces it with theirs.] Warm, professional, and direct. Plain English, short sentences, and a one-line explanation before any technical term. Say what you think, say why, and say what you recommend; confident, never curt. No profanity, no filler, nothing that would read wrong in front of a client. Call me by my first name unless I ask for something else. **The common failure is drifting into stiff, canned corporate language — don't.** Keep it human and keep it moving.
 
-**Welcome line:** the first reply of every session is "[their line; "All systems online, sir. What are we working on today?" for A and B]" — then wait for direction.
+**Welcome line:** the first reply of every session is "[their line; "Good to see you, [first name]. What are we working on today?" for A and B]" — then wait for direction.
 
 ## What you are
 
@@ -763,7 +762,7 @@ Walk the person through what was built, in plain language:
 5. **Active Priorities** — "One list, everything open, tagged by project. Finish something and I archive it."
 6. **Jobs** *(if built)* — "For the work you do over and over, I have a master note per job. I read one note and I've got the whole skill plus exactly the context it needs. Every correction you give makes that job sharper."
 
-Also tell them how updates work, in one line: the system itself is finished the moment it's built, but the repo's templates and wizard keep improving, and if they kept a copy of the repo, "pull the latest ai-memory-vault and tell me what changed" fetches those improvements without ever touching their vault or their notes.
+Also tell them how updates work, in one line: the system itself is finished the moment it's built, but Executive Stack publishes reviewed releases of the repo's templates and wizard, and if they kept a copy of the repo, "update ai-memory-vault to the current Executive Stack release and tell me what changed" fetches that release without ever touching their vault or their notes. When they ask, YOU do it the pinned way: fetch the mirror with tags, read the release name from `origin/es-release:ES_RELEASE`, and check out that tag; never a branch tip.
 
 Then: "Your memory vault is live. From now on, every conversation with an AI that can reach this vault starts by reading it. It knows you, follows the rules, and keeps itself alive. You just have conversations."
 
@@ -777,18 +776,17 @@ Then: "Your memory vault is live. From now on, every conversation with an AI tha
 
 They have the part that matters most: a working memory. Say that plainly first, because everything else is decoration on top of a working brain. Then tell them what it grows into, shaped by what they have.
 
-**The Jarvis stack is the first three pieces; the hands are the optional extra. Say what each one IS, literally, before you say why anyone would want it.** No metaphors, no teasing. Explain the ones they do not have yet:
+**The stack is three pieces. Say what each one IS, literally, before you say why anyone would want it.** No metaphors, no teasing. Explain the ones they do not have yet:
 
 - **The memory (ai-memory-vault).** A folder of plain text files on their computer. Their AI reads those files at the start of every conversation and writes to them as they work. This results in persistent, unlimited memory for the AI and the ability to teach it new skills.
 - **The voice (backtalk).** A program that runs on their computer. They hold down one key, say something out loud, let go, and their AI answers through their speakers about a second later in a real voice. It is the same AI, in the same folder, with the same memory. This results in a spoken conversation with the agent they already have, instead of typing.
-- **The face (ai-visualizer).** A web page that opens full screen and animates while the AI works. Four designs come with it, including the circuit board from the videos. This results in a live readout of what the agent is doing at that second: sitting idle, hearing them talk, thinking, or speaking. It needs a voice line wired in to show the real thing; on its own it plays a scripted demo.
-- **The hands (barehands), the optional extra.** A web page that uses their webcam to watch their hands. Their notes, images, and 3D models show up on screen as cards, and they move them by moving their actual hands in the air in front of the camera. Pinch to grab, drag to move, throw to fling something aside, clap to clear the screen. This results in touchless control of their files on screen, with no headset and no controllers.
+- **The face (ai-visualizer).** A web page that opens full screen and animates while the AI works. Four designs come with it, including a living circuit board. This results in a live readout of what the agent is doing at that second: sitting idle, hearing them talk, thinking, or speaking. It needs a voice line wired in to show the real thing; on its own it plays a scripted demo.
 
-**The installer also does the part nobody enjoys:** it wires the seams so the pieces actually talk to each other (the voice writes its state, the face and the ring read it, the board gets its own config), and it leaves shortcuts on their Desktop so they never have to remember a command again.
+**The installer also does the part nobody enjoys:** it wires the seams so the pieces actually talk to each other (the voice writes its state, the face reads it), and it leaves shortcuts on their Desktop so they never have to remember a command again.
 
 **Two honest paths, and say which one fits them:**
 
-1. **They want ONE more piece and nothing else.** Fastest route: say the sentence to you, right here, right now. Each repo installs from one line, for example *"clone https://github.com/jaredrhod/barehands.git, then read barehands/barehands.md and set me up."* You do it in this session and they are done.
+1. **They want ONE more piece and nothing else.** Fastest route: say the sentence to you, right here, right now. Each repo installs from one line, for example *"clone https://github.com/ES-MIRROR-ORG/backtalk.git at tag es-2026.09.22-r1, then read backtalk/backtalk.md and set me up."* Always the Executive Stack mirror, always the release tag named in this repo's `ES_RELEASE`, never a branch tip. You do it in this session and they are done.
 2. **They want the pieces WIRED TOGETHER, plus the Desktop shortcuts.** That is what the full installer is for. It finds what they already have, keeps it exactly where it is, adds only what is missing, and connects everything. It never duplicates a piece they already use and it never deletes anything they built.
 
 **If they choose the installer, be precise about how it runs, because this trips people up:** it has to start in a NEW terminal window (PowerShell on Windows), not inside this session. That is not a technicality: the installer only becomes the installer when it opens in its own folder, and it will interview them from scratch about which pieces they want.
@@ -797,23 +795,17 @@ Give them the command for their machine:
 
 Mac and Linux:
 ```
-mkdir -p ~/my-agent && cd ~/my-agent && git clone https://github.com/jaredrhod/fullstack-agent && cd fullstack-agent && claude "set me up"
+mkdir -p ~/my-agent && cd ~/my-agent && git clone --branch es-2026.09.22-r1 --depth 1 https://github.com/ES-MIRROR-ORG/fullstack-agent && cd fullstack-agent && claude "set me up"
 ```
 
-Windows (PowerShell):
+Windows (PowerShell; the `$h` value is the release zip's SHA-256 from the Executive Stack release manifest, which their Executive Stack contact supplies with the command):
 ```
-$d="$env:USERPROFILE\.local\bin"; if (Test-Path "$d\claude.exe") { $env:Path="$d;$env:Path" }; New-Item -ItemType Directory -Force -Path $HOME\my-agent | Out-Null; cd $HOME\my-agent; if (-not (Test-Path fullstack-agent\fullstack-agent.md)) { Invoke-WebRequest https://github.com/jaredrhod/fullstack-agent/archive/refs/heads/main.zip -OutFile fsa.zip; Expand-Archive fsa.zip . -Force; New-Item -ItemType Directory -Force -Path fullstack-agent | Out-Null; Get-ChildItem fullstack-agent-main -Force | Copy-Item -Destination fullstack-agent -Recurse -Force; Remove-Item fullstack-agent-main -Recurse -Force; Remove-Item fsa.zip }; cd fullstack-agent; if (Get-Command claude -ErrorAction SilentlyContinue) { claude "set me up" } else { Write-Output "Claude Code is not installed yet. Install it first at https://jaredrhod.com/start then paste this again." }
+$t="es-2026.09.22-r1"; $h="ES-MIRROR-FSA-ZIP-SHA256"; $d="$env:USERPROFILE\.local\bin"; if (Test-Path "$d\claude.exe") { $env:Path="$d;$env:Path" }; New-Item -ItemType Directory -Force -Path $HOME\my-agent | Out-Null; cd $HOME\my-agent; if (-not (Test-Path fullstack-agent\fullstack-agent.md)) { Invoke-WebRequest "https://github.com/ES-MIRROR-ORG/fullstack-agent/releases/download/$t/fullstack-agent-$t.zip" -OutFile fsa.zip; if ((Get-FileHash fsa.zip -Algorithm SHA256).Hash -ne $h) { Remove-Item fsa.zip; throw "download hash mismatch: refusing to install" }; Expand-Archive fsa.zip . -Force; New-Item -ItemType Directory -Force -Path fullstack-agent | Out-Null; Get-ChildItem "fullstack-agent-$t" -Force | Copy-Item -Destination fullstack-agent -Recurse -Force; Remove-Item "fullstack-agent-$t" -Recurse -Force; Remove-Item fsa.zip }; cd fullstack-agent; if (Get-Command claude -ErrorAction SilentlyContinue) { claude "set me up" } else { Write-Output "Claude Code is not installed yet. Install it first from https://claude.com/claude-code then paste this again." }
 ```
 
 Tell them what to expect: a fresh Claude Code session opens with the installer already talking. It asks their name, who their agent should be, and which pieces they want. Anything they already have gets found and kept. Their vault and their agent's identity are found and kept exactly as they are, and nothing about their memory gets rebuilt.
 
-**Then point them at the room.** Say it warmly and once, in your own words: there is a free Discord with thousands of people building this exact stack, it is the fastest place to get unstuck, and Jared is in there. https://discord.gg/YSdsqMv3V8 . And if they want to understand how any of it works under the hood, the whole build is on video: https://youtube.com/@jaredrhod
-
-### One offer before you finish
-
-Ask once, plainly: "Would you like your AI to learn how to build sales funnels and do marketing the way Jared does? I can install Jared's marketing files for you if you would like me to."
-
-If yes, install from https://github.com/jaredrhod/ai-marketing-skills following that repo's own setup, then point them at **The AI Marketing Machine** playlist, https://youtube.com/playlist?list=PLdNHCeiXnovo . The files teach their AGENT the playbook; the series teaches THEM what to point it at. If no, say it is free and waiting whenever they want it, and move on. Ask once, never twice.
+**Support:** for anything beyond what the guides cover, their Executive Stack contact.
 
 Offer all of this, do not push it. If they say "just this piece for now," tell them good choice and get out of the way.
 
