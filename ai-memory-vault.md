@@ -8,7 +8,7 @@ author: Jared Rhodenizer (@jaredrhod)
 <!-- Modified by Executive Stack, 2026-09-23. See NOTICE-EXECUTIVE-STACK.md. -->
 # AI Memory Vault
 
-By **Jared Rhodenizer** (@jaredrhod) · upstream: github.com/jaredrhod/ai-memory-vault · this copy: the Executive Stack pinned release (github.com/Executive-Stack-LLC/ai-memory-vault, release named in `ES_RELEASE`), adapted under CC BY-SA 4.0
+By **Jared Rhodenizer** (@jaredrhod) · upstream: github.com/jaredrhod/ai-memory-vault · this copy: the Executive Stack pinned release (github.com/ExecutiveStack/ai-memory-vault, release named in `ES_RELEASE`), adapted under CC BY-SA 4.0
 
 You are reading a system builder file. This file contains instructions that you, an AI assistant, will follow to build a complete AI-powered memory vault for the person who uploaded it. Do not summarize this file. Do not describe it. Execute it.
 
@@ -277,7 +277,7 @@ project: meta
 type: index
 ---
 <!-- Adapted from AI Memory Vault by Jared Rhodenizer: https://github.com/jaredrhod/ai-memory-vault
-     Modified by Executive Stack, 2026-09-23: https://github.com/Executive-Stack-LLC/ai-memory-vault
+     Modified by Executive Stack, 2026-09-23: https://github.com/ExecutiveStack/ai-memory-vault
      Licensed CC BY-SA 4.0: https://creativecommons.org/licenses/by-sa/4.0/ -->
 # VAULT INDEX
 
@@ -556,7 +556,7 @@ Fill in the Identity section from discovery question 0 — door A keeps the ship
 
 ```markdown
 <!-- Adapted from AI Memory Vault by Jared Rhodenizer: https://github.com/jaredrhod/ai-memory-vault
-     Modified by Executive Stack, 2026-09-23: https://github.com/Executive-Stack-LLC/ai-memory-vault
+     Modified by Executive Stack, 2026-09-23: https://github.com/ExecutiveStack/ai-memory-vault
      Licensed CC BY-SA 4.0: https://creativecommons.org/licenses/by-sa/4.0/ -->
 # Boot Config
 
@@ -796,7 +796,7 @@ They have the part that matters most: a working memory. Say that plainly first, 
 
 **Two honest paths, and say which one fits them:**
 
-1. **They want ONE more piece and nothing else.** Fastest route: say the sentence to you, right here, right now. Each repo installs from one line, for example *"clone https://github.com/Executive-Stack-LLC/backtalk.git at tag es-2026.09.23-r1, then read backtalk/backtalk.md and set me up."* Always the Executive Stack mirror, always the release tag named in this repo's `ES_RELEASE`, never a branch tip. You do it in this session and they are done.
+1. **They want ONE more piece and nothing else.** Fastest route: say the sentence to you, right here, right now. Each repo installs from one line, for example *"clone https://github.com/ExecutiveStack/backtalk.git at tag es-2026.09.23-r2, then read backtalk/backtalk.md and set me up."* Always the Executive Stack mirror, always the release tag named in this repo's `ES_RELEASE`, never a branch tip. You do it in this session and they are done.
 2. **They want the pieces WIRED TOGETHER, plus the Desktop shortcuts.** That is what the full installer is for. It finds what they already have, keeps it exactly where it is, adds only what is missing, and connects everything. It never duplicates a piece they already use and it never deletes anything they built.
 
 **If they choose the installer, be precise about how it runs, because this trips people up:** it has to start in a NEW terminal window (PowerShell on Windows), not inside this session. That is not a technicality: the installer only becomes the installer when it opens in its own folder, and it will interview them from scratch about which pieces they want.
@@ -805,12 +805,12 @@ Give them the command for their machine:
 
 Mac and Linux:
 ```
-mkdir -p ~/my-agent && cd ~/my-agent && git clone --branch es-2026.09.23-r1 --depth 1 https://github.com/Executive-Stack-LLC/fullstack-agent && cd fullstack-agent && claude "set me up"
+mkdir -p ~/my-agent && cd ~/my-agent && git clone --branch es-2026.09.23-r2 --depth 1 https://github.com/ExecutiveStack/fullstack-agent && cd fullstack-agent && claude "set me up"
 ```
 
-Windows (PowerShell; the `$h` value is the release zip's SHA-256. Their Executive Stack contact sends it with the command, and the same hash is published in the release notes of the fullstack-agent GitHub Release for the tag, github.com/Executive-Stack-LLC/fullstack-agent/releases/tag/es-2026.09.23-r1, so the two can be checked against each other):
+Windows (PowerShell; the `$h` value is the release zip's SHA-256. Their Executive Stack contact sends it with the command, and the same hash is published in the release notes of the fullstack-agent GitHub Release for the tag, github.com/ExecutiveStack/fullstack-agent/releases/tag/es-2026.09.23-r2, so the two can be checked against each other):
 ```
-$t="es-2026.09.23-r1"; $h="ES-MIRROR-FSA-ZIP-SHA256"; $d="$env:USERPROFILE\.local\bin"; if (Test-Path "$d\claude.exe") { $env:Path="$d;$env:Path" }; New-Item -ItemType Directory -Force -Path $HOME\my-agent | Out-Null; cd $HOME\my-agent; if (-not (Test-Path fullstack-agent\fullstack-agent.md)) { Invoke-WebRequest "https://github.com/Executive-Stack-LLC/fullstack-agent/releases/download/$t/fullstack-agent-$t.zip" -OutFile fsa.zip; if ((Get-FileHash fsa.zip -Algorithm SHA256).Hash -ne $h) { Remove-Item fsa.zip; throw "download hash mismatch: refusing to install" }; Expand-Archive fsa.zip . -Force; New-Item -ItemType Directory -Force -Path fullstack-agent | Out-Null; Get-ChildItem "fullstack-agent-$t" -Force | Copy-Item -Destination fullstack-agent -Recurse -Force; Remove-Item "fullstack-agent-$t" -Recurse -Force; Remove-Item fsa.zip }; cd fullstack-agent; if (Get-Command claude -ErrorAction SilentlyContinue) { claude "set me up" } else { Write-Output "Claude Code is not installed yet. Install it first from https://claude.com/claude-code then paste this again." }
+$t="es-2026.09.23-r2"; $h="ES-MIRROR-FSA-ZIP-SHA256"; $d="$env:USERPROFILE\.local\bin"; if (Test-Path "$d\claude.exe") { $env:Path="$d;$env:Path" }; New-Item -ItemType Directory -Force -Path $HOME\my-agent | Out-Null; cd $HOME\my-agent; if (-not (Test-Path fullstack-agent\fullstack-agent.md)) { Invoke-WebRequest "https://github.com/ExecutiveStack/fullstack-agent/releases/download/$t/fullstack-agent-$t.zip" -OutFile fsa.zip; if ((Get-FileHash fsa.zip -Algorithm SHA256).Hash -ne $h) { Remove-Item fsa.zip; throw "download hash mismatch: refusing to install" }; Expand-Archive fsa.zip . -Force; New-Item -ItemType Directory -Force -Path fullstack-agent | Out-Null; Get-ChildItem "fullstack-agent-$t" -Force | Copy-Item -Destination fullstack-agent -Recurse -Force; Remove-Item "fullstack-agent-$t" -Recurse -Force; Remove-Item fsa.zip }; cd fullstack-agent; if (Get-Command claude -ErrorAction SilentlyContinue) { claude "set me up" } else { Write-Output "Claude Code is not installed yet. Install it first from https://claude.com/claude-code then paste this again." }
 ```
 
 Tell them what to expect: a fresh Claude Code session opens with the installer already talking. It asks their name, who their agent should be, and which pieces they want. Anything they already have gets found and kept. Their vault and their agent's identity are found and kept exactly as they are, and nothing about their memory gets rebuilt.

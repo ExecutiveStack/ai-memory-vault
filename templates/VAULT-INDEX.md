@@ -4,7 +4,7 @@ project: meta
 type: index
 ---
 <!-- Adapted from AI Memory Vault by Jared Rhodenizer: https://github.com/jaredrhod/ai-memory-vault
-     Modified by Executive Stack, 2026-09-23: https://github.com/Executive-Stack-LLC/ai-memory-vault (changes listed in NOTICE-EXECUTIVE-STACK.md)
+     Modified by Executive Stack, 2026-09-23: https://github.com/ExecutiveStack/ai-memory-vault (changes listed in NOTICE-EXECUTIVE-STACK.md)
      Licensed CC BY-SA 4.0: https://creativecommons.org/licenses/by-sa/4.0/ -->
 # VAULT INDEX
 
